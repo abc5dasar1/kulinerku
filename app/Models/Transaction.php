@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'order_id',
+        'price',
+        'qty'
+    ];
     use HasFactory;
     public function User(): BelongsTo{
         return $this->belongsTo(User::class);

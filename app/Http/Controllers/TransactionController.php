@@ -16,14 +16,14 @@ class TransactionController extends Controller
         $user_id = $request->user_id;
         $product_id = $request->product_id;
         $price = $request->price;
-        $quantity = $request->quantity;
+        $qty = $request->qty;
 
         $transaction = Transaction::where('user_id', $user_id)
             ->where('product_id', $product_id)
             ->first();
         if ($transaction) {
-            // If the product is already in the cart, increase the quantity
-            $transaction->quantity += $quantity;
+            // If the product is already in the cart, increase the qty
+            $transaction->qty += $qty;
             $transaction->save();
             return redirect()->back()->with('status', 'Succeed Add to Cart');
         } else {
@@ -31,7 +31,7 @@ class TransactionController extends Controller
                 'user_id' => $user_id,
                 'product_id' => $product_id,
                 'price' => $price,
-                'quantity' => $quantity,
+                'qty' => $qty,
             ]);
             return redirect()->to('product')->with('status', 'Succeed Add to Cart');
         }
