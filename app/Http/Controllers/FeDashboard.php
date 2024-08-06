@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Transaction;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 
 class FeDashboard extends Controller
@@ -11,7 +13,19 @@ class FeDashboard extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function shop(){
+    public function cart(){
+        $products = Product::all();
+        $carts = Transaction::where('status','di keranjang')->get();
+        $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(5)->groupBy('order_id');
+        $total_biaya = 0;
+        foreach($carts as $cart){
+            $total_price = $cart->price * $cart->qty;
+            $total_biaya += $total_price;
+        }
+        return view('fe.cart', compact('products', 'carts', 'total_biaya'));
+    }
+
+     public function shop(){
         $products = Product::all();
         return view('fe.shop', compact('products'));
     }
@@ -19,7 +33,20 @@ class FeDashboard extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('fe.index', compact('products'));
+        $wallets = Wallet::where('status', 'selesai')->get();
+        $credit = 0;
+        $debit = 0;
+
+        foreach ($wallets as $wallet) {
+            $credit += $wallet->credit;
+            $debit += $wallet->debit;
+        }
+
+        $saldo = $credit - $debit;
+
+        $carts = Transaction::where('status','di keranjang')->get();
+        $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(5)->groupBy('order_id');
+        return view('fe.index', compact('products','saldo','carts','transactions'));
     }
 
     /**

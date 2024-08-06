@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Wallet;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,17 +21,25 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'fadiyah',
             'email' => 'fadiyah@gmail.com',
-            'password' => 123456
+            'password' => 123456,
+            'type' => 0
+        ]);
+        User::factory()->create([
+            'name' => 'fadiyahi',
+            'email' => 'fadiyahi@gmail.com',
+            'password' => 123456,
+            'type' => 1
         ]);
         Category::create([
             'name_category' => 'Buah'
         ]);
 
-        Product::create([
-            'name' => 'Mangga',
-            'price' => 12000,
-            'photo' => '',
-            'dsc' => 'Ini Mangga'
+        Wallet::create([
+            'user_id' => 1,
+            'credit' => 2000000,
+            'debit' => 10000,
+            'dsc' => 'Bayar',
+            'status' => 'selesai'
         ]);
     }
 }

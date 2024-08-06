@@ -5,62 +5,48 @@ namespace App\Http\Controllers;
 use App\Models\Wallet;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WalletController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function topupNow(Request $request){
+        $user_id = Auth::user()->id;
+        $credit = $request->credit;
+        $status = 'proses';
+        $description = 'Top Up';
+
+        Wallet::create([
+            'user_id' => $user_id ,
+            'credit' => $credit ,
+            'status' => $status,
+            'description' => $description
+        ]);
+
+        return redirect()->back()->with('status','Process TopUp');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    public function acceptRequest(Request $request){
+        $wallet = Wallet::where('user_id', $request->user_id)->where('status', 'selesai')->get();
+        $credit = $wallet->sum('credit');
+        $debit = $wallet->sum('debit');
+        $saldo_user = $credit - $debit;
+        if($saldo_user < $request->debit) return redirect()->back()->with('status', 'Less Balance');
+        $wallet_id = $request->wallet_id;
+        Wallet::find($wallet_id)->update([
+            'status' => 'selesai'
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return redirect()->back()->with('status','Succeed');
     }
+    public function declineRequest(Request $request){
+        $wallet_id = $request->wallet_id;
+        Wallet::find($wallet_id)->update([
+            'status' => 'Tolak'
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Wallet $wallet)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Wallet $wallet)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Wallet $wallet)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Wallet $wallet)
-    {
-        //
+        return redirect()->back()->with('status','Reject');
     }
 }
