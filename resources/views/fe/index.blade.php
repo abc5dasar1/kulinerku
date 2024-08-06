@@ -1,5 +1,11 @@
 @extends('layout.fe.fe')
 @section('content_fe')
+@php
+function rupiah($angka){
+    $hasil_rupiah = "Rp" . number_format($angka,0,',','.');
+    return $hasil_rupiah;
+}
+@endphp
     <!-- Hero Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
         <div class="container py-5">
@@ -49,7 +55,7 @@
                             <i class="fas fa-car-side fa-3x text-white"></i>
                         </div>
                         <div class="featurs-content text-center">
-                            <p>{{ $saldo }}</p>
+                            <p>{{ rupiah($saldo) }}</p>
                             <button type="button" class="btn btn-success px-5" data-bs-target="#formTopUp" data-bs-toggle="modal">Top Up</button>
                             <!-- Modal Top Up -->
                             <form action="{{ route('topupNow') }}" method="post">
@@ -196,7 +202,7 @@
                                                         <div class="d-flex justify-content-between flex-lg-wrap">
                                                             <div class="row mb-3">
                                                                 <div class="col">
-                                                                    <p class="text-dark fs-5 fw-bold mb-0">{{ $product->price }}</p>
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">{{ rupiah($product->price) }}</p>
                                                                 </div>
                                                                 <div class="col">
                                                                     <input class="form-control d-inline" type="number" value="1" name="qty" id="" min="1">

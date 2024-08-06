@@ -16,13 +16,13 @@ class WalletController extends Controller
         $user_id = Auth::user()->id;
         $credit = $request->credit;
         $status = 'proses';
-        $description = 'Top Up';
+        $dsc = 'Top Up';
 
         Wallet::create([
             'user_id' => $user_id ,
             'credit' => $credit ,
             'status' => $status,
-            'description' => $description
+            'dsc' => $dsc
         ]);
 
         return redirect()->back()->with('status','Process TopUp');

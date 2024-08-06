@@ -29,7 +29,7 @@ class TransactionController extends Controller
             // If the product is already in the cart, increase the qty
             $transaction->qty += $qty;
             $transaction->save();
-            return redirect()->to('cart')->with('status', 'Succeed Add to Cart');
+            return redirect()->back()->with('status', 'Succeed Add to Cart');
         } else {
             Transaction::create([
                 'user_id' => $user_id,
@@ -38,7 +38,7 @@ class TransactionController extends Controller
                 'price' => $price,
                 'qty' => $qty,
             ]);
-            return redirect()->to('cart')->with('status', 'Failed Add to Cart');
+            return redirect()->back()->with('status', 'Failed Add to Cart');
         }
     }
 
@@ -87,10 +87,6 @@ class TransactionController extends Controller
                 'status' => $status,
                 'order_id' => $order_id
             ]);
-
-            Product::find($cart->product->id)->update([
-                'stock' => $cart->product->stock - $cart->quantity
-            ]);
         }
 
         return redirect()->back()->with('status', 'Successfully Paid Transaction');
@@ -100,7 +96,7 @@ class TransactionController extends Controller
         $total_biaya = 0;
 
         foreach($transactions as $transaction){
-            $total_price = $transaction->price * $transaction->quantity;
+            $total_price = $transaction->price * $transaction->qty;
             $total_biaya += $total_price;
         }
 

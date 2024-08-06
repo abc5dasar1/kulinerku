@@ -14,6 +14,7 @@ class FeDashboard extends Controller
      * Display a listing of the resource.
      */
     public function cart(){
+        $count = Transaction::where('user_id', auth()->id())->sum('qty');
         $products = Product::all();
         $carts = Transaction::where('status','di keranjang')->get();
         $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(5)->groupBy('order_id');
@@ -22,7 +23,7 @@ class FeDashboard extends Controller
             $total_price = $cart->price * $cart->qty;
             $total_biaya += $total_price;
         }
-        return view('fe.cart', compact('products', 'carts', 'total_biaya'));
+        return view('fe.cart', compact('count','products', 'carts', 'total_biaya'));
     }
 
      public function shop(){
@@ -32,6 +33,7 @@ class FeDashboard extends Controller
 
     public function index()
     {
+        $count = Transaction::where('user_id', auth()->id())->sum('qty');
         $products = Product::all();
         $wallets = Wallet::where('status', 'selesai')->get();
         $credit = 0;
@@ -46,7 +48,7 @@ class FeDashboard extends Controller
 
         $carts = Transaction::where('status','di keranjang')->get();
         $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(5)->groupBy('order_id');
-        return view('fe.index', compact('products','saldo','carts','transactions'));
+        return view('fe.index', compact('count','products','saldo','carts','transactions'));
     }
 
     /**

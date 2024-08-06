@@ -1,3 +1,9 @@
+@php
+function rupiah($angka){
+    $hasil_rupiah = "Rp" . number_format($angka,0,',','.');
+    return $hasil_rupiah;
+}
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,10 +84,14 @@
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
                 <div class="row g-3">
-                    @foreach ($products as $product)
-                    <form action="{{ route('addtoCart') }}" method="post">
-                        @csrf
-                        <div class="col-md-6 col-lg-6 col-xl-2">
+                    @foreach ($products as $key => $product)
+                    @csrf
+                    <div class="col-md-3 col-lg-4 col-xl-3">
+                        <form action="{{ route('addtoCart') }}" method="post">
+                            @csrf
+                            <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
+                            <input type="hidden" value="{{ $product->id }}" name="product_id">
+                            <input type="hidden" value="{{ $product->price }}" name="price">
                             <div class="rounded position-relative fruite-item">
                                 <div class="fruite-img">
                                     <img src="{{ Storage::url($product->photo) }}" class="img-fluid rounded-top" alt="">
@@ -91,13 +101,20 @@
                                     <h4>{{ $product->name }}</h4>
                                     <p>{{ $product->dsc }}</p>
                                     <div class="d-flex justify-content-between flex-lg-wrap">
-                                        <p class="text-dark fs-5 fw-bold mb-0">{{ $product->price }}</p>
-                                        <button class="btn border border-secondary rounded-pill px-3 text-primary mt-2" type="submit"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <p class="text-dark fs-5 fw-bold mb-0">{{ rupiah($product->price) }}</p>
+                                            </div>
+                                            <div class="col">
+                                                <input class="form-control d-inline" type="number" value="1" name="qty" id="" min="1">
+                                            </div>
+                                        </div>
                                     </div>
+                                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
                                 </div>
                             </div>
+                        </form>
                         </div>
-                    </form>
                     @endforeach
                     <div class="col-12">
                         <div class="pagination d-flex justify-content-center mt-5">
