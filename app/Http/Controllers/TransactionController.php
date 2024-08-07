@@ -15,6 +15,7 @@ class TransactionController extends Controller
      * Display a listing of the resource.
      */
     public function addToCart (Request $request){
+        // dd($request->all());
         $user_id = $request->user_id;
         $product_id = $request->product_id;
         $status = 'di keranjang';

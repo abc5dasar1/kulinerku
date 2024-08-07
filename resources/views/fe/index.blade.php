@@ -49,13 +49,25 @@ function rupiah($angka){
     <div class="container-fluid featurs py-5">
         <div class="container py-5">
             <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-6">
                     <div class="featurs-item text-center rounded bg-light p-4">
+                        <h4>Saldo</h4>
                         <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-car-side fa-3x text-white"></i>
+                            <i class="fas fa-dollar-sign fa-3x text-white"></i>
                         </div>
-                        <div class="featurs-content text-center">
+                        <div class="featurs-content text-center pb-1">
                             <p>{{ rupiah($saldo) }}</p>
+                            <!-- End Modal Top Up -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="featurs-item text-center rounded bg-light p-4">
+                        <h4>TopUp</h4>
+                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+                            <i class="fas fa-wallet fa-3x text-white"></i>
+                        </div>
+                        <div class="featurs-content text-center pb-1">
                             <button type="button" class="btn btn-success px-5" data-bs-target="#formTopUp" data-bs-toggle="modal">Top Up</button>
                             <!-- Modal Top Up -->
                             <form action="{{ route('topupNow') }}" method="post">
@@ -81,58 +93,6 @@ function rupiah($angka){
                                 </div>
                             </form>
                             <!-- End Modal Top Up -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-user-shield fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            @foreach ($transactions as $key => $transaction)
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col fw-bold">
-                                            {{ $transaction[0]->order_id }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col text-secondary" style="font-size: 12px">
-                                            {{ $transaction[0]->created_at }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-end align-items-center">
-                                    <a href="{{ route('download', ['order_id' => $transaction[0]->order_id]) }}" class="btn btn-light">
-                                        <i class="bi bi-arrow-down-short"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-exchange-alt fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>30 Day Return</h5>
-                            <p class="mb-0">30 day money guarantee</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fa fa-phone-alt fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>24/7 Support</h5>
-                            <p class="mb-0">Support every time fast</p>
                         </div>
                     </div>
                 </div>
@@ -209,7 +169,9 @@ function rupiah($angka){
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                                        <button type="submit" class="addToCart btn border border-secondary rounded-pill px-3 text-primary" onclick="event.stopPropagation();">
+                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </form>

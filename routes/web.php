@@ -13,6 +13,8 @@ Auth::routes();
 
 
 Route::resource('dashboard_fe', FeDashboard::class);
+Route::get('mutation', [App\Http\Controllers\FeDashboard::class, 'mutation'])->name('fe.mutation');
+Route::get('history', [App\Http\Controllers\FeDashboard::class, 'history'])->name('fe.history');
 Route::get('shop', [App\Http\Controllers\FeDashboard::class, 'shop'])->name('fe.shop');
 Route::get('cart', [App\Http\Controllers\FeDashboard::class, 'cart'])->name('fe.cart');
 Route::post('addtocart', [App\Http\Controllers\TransactionController::class, 'addtoCart'])->name('addtoCart');
