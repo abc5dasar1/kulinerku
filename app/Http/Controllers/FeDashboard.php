@@ -16,19 +16,19 @@ class FeDashboard extends Controller
      */
 
     public function mutation(){
-        $count = Transaction::where('status','di keranjang')->where('user_id', auth()->id())->sum('qty');
+        $count = Transaction::where('status','di keranjang')->sum('qty');
         $mutasi = Wallet::where('user_id', Auth::user()->id)->orderBy('created_at','DESC')->get();
         return view('fe.mutation', compact('count','mutasi'));
     }
 
     public function history(){
-        $count = Transaction::where('status','di keranjang')->where('user_id', auth()->id())->sum('qty');
+        $count = Transaction::where('status','di keranjang')->sum('qty');
         $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->get()->groupBy('order_id');
         return view('fe.history', compact('count','transactions'));
     }
 
     public function cart(){
-        $count = Transaction::where('status', 'di keranjang')->where('user_id', auth()->id())->sum('qty');
+        $count = Transaction::where('status', 'di keranjang')->sum('qty');
         $products = Product::all();
         $carts = Transaction::where('status','di keranjang')->get();
         $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(5)->groupBy('order_id');
@@ -41,31 +41,29 @@ class FeDashboard extends Controller
     }
 
      public function shop(){
-        $count = Transaction::where('status','di keranjang')->where('user_id', auth()->id())->sum('qty');
+        $count = Transaction::where('status','di keranjang')->sum('qty');
         $products = Product::all();
         return view('fe.shop', compact('count','products'));
     }
 
     public function index()
-    {
-        if(Auth::user()->role == 'members'){
-            $count = Transaction::where('status','di keranjang')->where('user_id', auth()->id())->sum('qty');
-            $products = Product::all();
-            $wallets = Wallet::where('status', 'selesai')->get();
-            $credit = 0;
-            $debit = 0;
+    { 
+        $count = Transaction::where('status','di keranjang')->sum('qty');
+        $products = Product::all();
+        $wallets = Wallet::where('status', 'selesai')->get();
+        $credit = 0;
+        $debit = 0;
 
-            foreach ($wallets as $wallet) {
-                $credit += $wallet->credit;
-                $debit += $wallet->debit;
-            }
-
-            $saldo = $credit - $debit;
-
-            $carts = Transaction::where('status','di keranjang')->get();
-            $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(2)->groupBy('order_id');
-            return view('fe.index', compact('count','products','saldo','carts','transactions'));
+        foreach ($wallets as $wallet) {
+            $credit += $wallet->credit;
+            $debit += $wallet->debit;
         }
+
+        $saldo = $credit - $debit;
+
+        $carts = Transaction::where('status','di keranjang')->get();
+        $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(2)->groupBy('order_id');
+        return view('fe.index', compact('count','products','saldo','carts','transactions'));
     }
 
     /**

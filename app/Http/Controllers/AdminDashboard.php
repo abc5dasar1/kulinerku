@@ -13,9 +13,7 @@ class AdminDashboard extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role == 'admin'){
-            return view('admin.index');
-        }
+        return view('admin.index');
     }
 
     /**

@@ -54,9 +54,9 @@ class TransactionController extends Controller
 
     public function payNow() {
         $status = 'dibayar';
-        $order_id = 'INV_' . Auth::user()->id . date('YmdHis');
+        $order_id = 'INV_' . Auth::user()->id . date('YmdHis');    
         $carts = Transaction::where('user_id', Auth::user()->id)->where('status', 'di keranjang')->get();
-
+        
         $wallets = Wallet::where('status','selesai')->get();
         $credit = 0;
         $debit = 0;
@@ -68,10 +68,10 @@ class TransactionController extends Controller
         $total_debit = 0;
 
         foreach($carts as $cart) {
-            $total_price = $cart->price * $cart->quantity;
-            $total_debit += $total_price;
+            $total_price = $cart->price * $cart->qty;
+            $total_debit += $total_price; 
         }
-        if($saldo < $total_debit)
+        if($saldo < $total_debit) 
         {
             return redirect()->back()->with('status','Less Balance');
         }
@@ -92,6 +92,7 @@ class TransactionController extends Controller
 
         return redirect()->back()->with('status', 'Successfully Paid Transaction');
     }
+
     public function download($order_id) {
         $transactions = Transaction::where('order_id', $order_id)->get();
         $total_biaya = 0;

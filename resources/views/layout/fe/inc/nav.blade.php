@@ -44,6 +44,7 @@
                     <a href="#" class="my-auto">
                         <i class="fas fa-user fa-2x"></i>
                     </a>
+                    Halo, {{ Auth::user()->name }}
                 </div>
             </div>
         </nav>

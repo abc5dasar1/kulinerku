@@ -21,6 +21,7 @@
                         <div class="col ">
                             <h6>{{ $data->user->name }}</h6>
                             <span>{{ $data->dsc }}</span>
+                            <p>{{ $data->status }}</p>
                             <p>{{ $data->created_at }}</p>
                         </div>
                         <div class="col d-flex align-items-center justify-content-end">
@@ -31,22 +32,6 @@
                             @endif
                         </div>
                     </div>
-                        {{-- <li class="list-group-item">
-                            <div>
-                                {{ $data->user->name }}
-                                <div>
-                                    @if ($data->credit)
-                                    <span class="text-warning fw-bold" >Credit: </span>
-                                        {{ rupiah($data->credit) }}
-                                    @else
-                                    <span class="text-danger fw-bold" >Debit:</span>
-                                    {{ rupiah($data->debit) }}
-                                    @endif
-                                </div>
-                            </div>
-                            <p> {{ $data->dsc }} </p>
-                            <p> {{ $data->created_at }} </p>
-                        </li> --}}
                     @endforeach
                 </ul>
             </div>

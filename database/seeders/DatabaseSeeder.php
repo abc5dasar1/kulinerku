@@ -21,25 +21,18 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'role' => 'admin',
+            'type' => '1',
             'password' => 123456,
         ]);
         User::factory()->create([
             'name' => 'fadiyahi',
             'email' => 'fadiyahi@gmail.com',
-            'role' => 'members',
+            'type' => '0',
             'password' => 123456,
         ]);
         Category::create([
             'name_category' => 'Buah'
         ]);
 
-        Wallet::create([
-            'user_id' => 1,
-            'credit' => 2000000,
-            'debit' => 10000,
-            'dsc' => 'Bayar',
-            'status' => 'selesai'
-        ]);
     }
 }

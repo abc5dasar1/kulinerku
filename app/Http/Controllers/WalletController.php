@@ -28,6 +28,11 @@ class WalletController extends Controller
         return redirect()->back()->with('status','Process TopUp');
     }
 
+    public function accept(){
+        $request_topup = Wallet::where('status','proses')->get();
+        return view('admin.topup.accept', compact('request_topup'));
+    }
+
     public function acceptRequest(Request $request){
         $wallet = Wallet::where('user_id', $request->user_id)->where('status', 'selesai')->get();
         $credit = $wallet->sum('credit');
