@@ -31,7 +31,7 @@
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form method="POST" action="{{ route('login') }}">
+              <form method="POST" action="{{ route('login_here') }}">
                 @csrf
                 <div class="row mb-3">
                     <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>

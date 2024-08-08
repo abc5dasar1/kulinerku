@@ -14,6 +14,9 @@ Auth::routes();
 
 Route::resource('dashboard_fe', FeDashboard::class);
 Route::get('mutation', [App\Http\Controllers\FeDashboard::class, 'mutation'])->name('fe.mutation');
+Route::get('login', [\App\Http\Controllers\LoginController::class, 'index']);
+Route::post('login_here', [App\Http\Controllers\LoginController::class, 'loginHere'])->name('login_here');
+Route::post('logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 Route::get('history', [App\Http\Controllers\FeDashboard::class, 'history'])->name('fe.history');
 Route::get('shop', [App\Http\Controllers\FeDashboard::class, 'shop'])->name('fe.shop');
 Route::get('cart', [App\Http\Controllers\FeDashboard::class, 'cart'])->name('fe.cart');
@@ -26,14 +29,8 @@ Route::get('/download/{order_id}', [App\Http\Controllers\TransactionController::
 // Route::get('admin/product/create', [App\Http\Controllers\ProductController::class, 'add'])->name('admin.product.create');
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth', 'user-access:admin'])->group(function () {
-    Route::get('/admin/index', [AdminDashboard::class, 'index'])->name('admin.index');
-    Route::resource('user', UserController::class);
-    Route::resource('category', CategoryController::class);
-    Route::resource('product', ProductController::class);
-    Route::resource('dashboard', AdminDashboard::class);
-});
-
-
-Route::middleware(['auth', 'user-access:members'])->group(function () {
-});
+Route::get('/admin/index', [AdminDashboard::class, 'index'])->name('admin.index');
+Route::resource('user', UserController::class);
+Route::resource('category', CategoryController::class);
+Route::resource('product', ProductController::class);
+Route::resource('dashboard', AdminDashboard::class);

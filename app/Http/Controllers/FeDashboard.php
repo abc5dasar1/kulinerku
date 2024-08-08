@@ -17,7 +17,7 @@ class FeDashboard extends Controller
 
     public function mutation(){
         $count = Transaction::where('status','di keranjang')->where('user_id', auth()->id())->sum('qty');
-        $mutasi = Wallet::where('user_id', Auth::user()->id)->orderBy('created_at','DESC')->paginate(1);
+        $mutasi = Wallet::where('user_id', Auth::user()->id)->orderBy('created_at','DESC')->get();
         return view('fe.mutation', compact('count','mutasi'));
     }
 
@@ -48,22 +48,24 @@ class FeDashboard extends Controller
 
     public function index()
     {
-        $count = Transaction::where('status','di keranjang')->where('user_id', auth()->id())->sum('qty');
-        $products = Product::all();
-        $wallets = Wallet::where('status', 'selesai')->get();
-        $credit = 0;
-        $debit = 0;
+        if(Auth::user()->role == 'members'){
+            $count = Transaction::where('status','di keranjang')->where('user_id', auth()->id())->sum('qty');
+            $products = Product::all();
+            $wallets = Wallet::where('status', 'selesai')->get();
+            $credit = 0;
+            $debit = 0;
 
-        foreach ($wallets as $wallet) {
-            $credit += $wallet->credit;
-            $debit += $wallet->debit;
+            foreach ($wallets as $wallet) {
+                $credit += $wallet->credit;
+                $debit += $wallet->debit;
+            }
+
+            $saldo = $credit - $debit;
+
+            $carts = Transaction::where('status','di keranjang')->get();
+            $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(2)->groupBy('order_id');
+            return view('fe.index', compact('count','products','saldo','carts','transactions'));
         }
-
-        $saldo = $credit - $debit;
-
-        $carts = Transaction::where('status','di keranjang')->get();
-        $transactions = Transaction::where('status','dibayar')->orderBy('created_at','DESC')->paginate(2)->groupBy('order_id');
-        return view('fe.index', compact('count','products','saldo','carts','transactions'));
     }
 
     /**

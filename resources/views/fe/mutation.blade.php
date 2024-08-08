@@ -10,16 +10,30 @@
     <div class="container" style="margin-top: 12%;">
         <div class="card mb-3">
             <div class="card-header fw-bold">
-                <div>
+                <div class="d-inline">
                     Wallet Mutation
                 </div>
-                <a href="/home" style="font-size: small; text-decoration: none;">Back</a>
             </div>
             <div class="card-body">
                 <ul class="list-group border-0">
                     @foreach ($mutasi as $data)
-                        <li class="list-group-item">
+                    <div class="row mb-3 p-3 border">
+                        <div class="col ">
+                            <h6>{{ $data->user->name }}</h6>
+                            <span>{{ $data->dsc }}</span>
+                            <p>{{ $data->created_at }}</p>
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-end">
+                            @if ($data->credit)
+                                <span class="text-warning">{{ rupiah($data->credit) }}</span>
+                            @else
+                                <span class="text-warning">{{ rupiah($data->debit) }}</span>
+                            @endif
+                        </div>
+                    </div>
+                        {{-- <li class="list-group-item">
                             <div>
+                                {{ $data->user->name }}
                                 <div>
                                     @if ($data->credit)
                                     <span class="text-warning fw-bold" >Credit: </span>
@@ -30,10 +44,9 @@
                                     @endif
                                 </div>
                             </div>
-                            Name: {{ $data->user->name }}
-                            <p> {{ $data->description }} </p>
+                            <p> {{ $data->dsc }} </p>
                             <p> {{ $data->created_at }} </p>
-                        </li>
+                        </li> --}}
                     @endforeach
                 </ul>
             </div>

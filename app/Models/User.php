@@ -21,8 +21,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
-        'type'
     ];
 
     /**
@@ -48,12 +48,6 @@ class User extends Authenticatable
         ];
     }
 
-    protected function type(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) =>  ["members", "admin"][$value],
-        );
-    }
 
     public function transactions(){
         return $this->hasMany(Transaction::class);

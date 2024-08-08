@@ -19,16 +19,16 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'fadiyah',
-            'email' => 'fadiyah@gmail.com',
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            'role' => 'admin',
             'password' => 123456,
-            'type' => 0
         ]);
         User::factory()->create([
             'name' => 'fadiyahi',
             'email' => 'fadiyahi@gmail.com',
+            'role' => 'members',
             'password' => 123456,
-            'type' => 1
         ]);
         Category::create([
             'name_category' => 'Buah'
